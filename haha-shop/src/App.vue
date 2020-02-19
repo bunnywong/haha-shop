@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <my-map />
   </div>
 </template>
 
 <script>
+import MyMap from './components/MyMap'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    MyMap
+  }
 }
 </script>
 
