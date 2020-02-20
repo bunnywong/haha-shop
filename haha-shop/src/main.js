@@ -12,7 +12,8 @@ Vue.config.productionTip = false
 Vue.use(VueGoogleMaps, {
   load: {
     key: config.MY_GOOGLE_API_KEY,
-    libraries: 'places'
+    libraries: 'places, directions',
+    language: 'en'
   }
 })
 
