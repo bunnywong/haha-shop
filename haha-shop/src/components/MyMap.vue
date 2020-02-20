@@ -27,8 +27,8 @@
           <div v-show="totalDistance">total distance: {{ totalDistance }}</div>
           <div v-show="totalTime">total time: {{ totalTime }}</div>
           <div class="mymap__form-button-wrapper">
-            <input type="reset" class="mymap__form-button" value="Reset" v-on:click="startingLocation = ''; dropoffPoint = ''; message = ''; totalTime = ''; totalDistance = ''">
             <input type="submit" class="mymap__form-button" :value="totalTime ? 'Re-submit' : 'Submit'" @click="formSubmit()">
+            <input type="reset" class="mymap__form-button" value="Reset" v-on:click="startingLocation = ''; dropoffPoint = ''; message = ''; totalTime = ''; totalDistance = ''">
           </div>
         </div>
       </form>
@@ -221,7 +221,7 @@ desktop = 768px
       border 1px solid lightgray
       background-color transparent
       box-shadow 1px 1px lightgray
-      &[type=submit]
+      &[type=reset]
         margin-left 20px
       &-wrapper
         margin-top 20px
