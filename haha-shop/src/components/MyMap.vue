@@ -39,26 +39,6 @@
         :zoom="mapZoom"
         ref="map"
       >
-        <gmap-polyline
-          v-if="mapPathObj"
-          :path="mapPathObj"
-          :editable="false"
-        >
-        </gmap-polyline>
-         <gmap-marker
-          v-if="path"
-          :draggable="false"
-          v-for="(item, index) in path"
-            :key="item.id"
-            :position="{
-              lat: parseFloat(item[0]),
-              lng: parseFloat(item[1])
-            }"
-            :label="{
-              text: (index + 1).toString(),
-              color: 'white'
-            }"
-        ></gmap-marker>
       </gmap-map>
     </div>
   </div>
@@ -96,17 +76,17 @@ export default {
       isWarningClass: false
     }
   },
-  computed: {
-    mapPathObj: function () {
-      return this.path.map(function (item) {
+  methods: {
+    wayPoints (path) {
+      return path.map(function (item) {
         return {
-          lat: parseFloat(item[0]),
-          lng: parseFloat(item[1])
+          location: {
+            lat: parseFloat(item[0]),
+            lng: parseFloat(item[1])
+          }
         }
       })
-    }
-  },
-  methods: {
+    },
     setStartingLocation (place) {
       this.startingLocation = place.formatted_address
     },
@@ -166,12 +146,37 @@ export default {
             self.totalDistance = response.data.total_distance
             self.totalTime = response.data.total_time
             self.path = response.data.path
+            self.getDirection()
           }
         })
         .catch(error => {
           self.isWarningClass = true
           self.message = error
         })
+    },
+    getDirection () {
+      let self = this
+      let directionsServiceConfig = {
+        origin: self.startingLocation,
+        destination: self.dropoffPoint,
+        travelMode: 'DRIVING'
+      }
+      self.$refs.map.$mapPromise.then((map) => {
+        directionsServiceConfig = Object.assign({}, directionsServiceConfig, { waypoints: self.wayPoints(self.path) })
+        // eslint-disable-next-line
+        self.directionsService = new google.maps.DirectionsService()
+        // eslint-disable-next-line
+        self.directionsRenderer = new google.maps.DirectionsRenderer()
+        self.directionsRenderer.setMap(self.$refs.map.$mapObject)
+        self.directionsService.route(directionsServiceConfig, (response, status) => {
+          if (status === 'OK') {
+            self.directionsRenderer.setDirections(response)
+            return
+          }
+          // print error
+          self.message = status
+        })
+      })
     }
   }
 }
