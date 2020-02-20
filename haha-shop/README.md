@@ -1,22 +1,50 @@
-# haha-shop
 
-> project for route estimate
 
-## Build Setup
+# Introduction
 
+This Vue.js web application allows user to submit one pickup and drop-off point. It display the waypoints returned from the backend(API call).​
+
+The App is live [here](http://haha-shop.s3-website.us-east-2.amazonaws.com)
+
+![enter image description here](https://i.ibb.co/Jt3RnJh/screen-capture.png  )
+
+## App progress
+1.  User submit one pickup and drop-off point. Address fields are come with autocomplete options.
+2. `POST` method with address content to the Mock API by `axios`. It purposed to collect `token`.
+3. Make API call by`GET` method with `token` from last step. Various status response as below:
+  - `in progress`: It represent server side still in progress. Then it process retry instantly max to 5 times. Variable `retryCounter` are editable in `MyMap.vue`. `Collecting route in progress...` message will inform user by green text.
+  - `failure`: Print `Location not accessible by car` message to user by red text.
+  - `success`: Print `total distance` and `total distance` to screen. Also render marker and route in map.
+
+## Prequisite
+- Install [nodeJS]([https://nodejs.org/en/download/](https://nodejs.org/en/download/))
+## Installation
 ``` bash
 # install dependencies
 npm install
+```
+## App configuration
+### Get Google Maps API KEY
+1. [Generating an Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+2. Enable `Maps JavaScript API`
+3. Enable `Places API` (for autocomplete feature)
 
-# serve with hot reload at localhost:8080
+### Update config.js
+In [config.js](haha-shop/config/config.js). Replace (`YOUR-GOOGLE-API-KEY` and `YOUR-MOCK-API-DOMAIN` ㊙️) with your own key
+```
+'use strict'
+export const MY_GOOGLE_API_KEY = export const MY_GOOGLE_API_KEY = 'YOUR-GOOGLE-API-KEY'
+export const MOCK_API_DOMAIN = 'YOUR-MOCK-API-DOMAIN'
+```
+㊙️ Hints: `https://mock-api.dev.XXX.com`
+## App in development mode
+``` bash
+# serve with hot reload at localhost:8080 with ESLint errors and warnings
 npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
+```
+## Run Tests
+Unit test files [path](haha-shop/test/unit/specs/)
+``` bash
 # run unit tests
 npm run unit
 
@@ -26,5 +54,15 @@ npm run e2e
 # run all tests
 npm test
 ```
+## Create production build
+``` bash
+# Build for production with minification to
+# Out put dir: hahashop/dist
+npm run build
+```
+See Vue.js official deployment [guidelines](https://cli.vuejs.org/guide/deployment.html) for more information.
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## TODO
+### Validator for empty address
+For now it conflits with autocomplete feature. For example when the value is out of autocomplete options list(e.g. `abc888`). Then input value keep as empty(not `abc888`). Which do not consistant with front-end value(`abc888`).
