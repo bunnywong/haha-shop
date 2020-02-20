@@ -39,6 +39,26 @@
         :zoom="mapZoom"
         ref="map"
       >
+        <gmap-polyline
+          v-if="mapPathObj"
+          :path="mapPathObj"
+          :editable="false"
+        >
+        </gmap-polyline>
+         <gmap-marker
+          v-if="path"
+          :draggable="false"
+          v-for="(item, index) in path"
+            :key="item.id"
+            :position="{
+              lat: parseFloat(item[0]),
+              lng: parseFloat(item[1])
+            }"
+            :label="{
+              text: (index + 1).toString(),
+              color: 'white'
+            }"
+        ></gmap-marker>
       </gmap-map>
     </div>
   </div>
@@ -74,6 +94,16 @@ export default {
       mapCenter: this.mapCenterRef,
       mapCounter: 0,
       isWarningClass: false
+    }
+  },
+  computed: {
+    mapPathObj: function () {
+      return this.path.map(function (item) {
+        return {
+          lat: parseFloat(item[0]),
+          lng: parseFloat(item[1])
+        }
+      })
     }
   },
   methods: {
