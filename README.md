@@ -6,7 +6,7 @@ This Vue.js web application allows user to submit one pickup and drop-off point.
 
 The App is live [here](http://haha-shop.s3-website.us-east-2.amazonaws.com)
 
-![enter image description here](https://i.ibb.co/Jt3RnJh/screen-capture.png  )
+![enter image description here](src/assets/screen-capture.png)
 
 ## App progress
 1.  User submit one pickup and drop-off point. Address fields are come with autocomplete options.
@@ -30,7 +30,7 @@ npm install
 3. Enable `Places API` (for autocomplete feature)
 
 ### Update config.js
-In [config.js](haha-shop/config/config.js). Replace (`YOUR-GOOGLE-API-KEY` and `YOUR-MOCK-API-DOMAIN` ㊙️) with your own key
+In [config.js](config/config.js). Replace (`YOUR-GOOGLE-API-KEY` and `YOUR-MOCK-API-DOMAIN` ㊙️) with your own key
 ```
 'use strict'
 export const MY_GOOGLE_API_KEY = 'YOUR-GOOGLE-API-KEY'
@@ -43,7 +43,7 @@ export const MOCK_API_DOMAIN = 'YOUR-MOCK-API-DOMAIN'
 npm run dev
 ```
 ## Run Tests
-Unit test files [path](haha-shop/test/unit/specs/)
+Unit test files [path](test/unit/specs/)
 ``` bash
 # run unit tests
 npm run unit
@@ -57,7 +57,7 @@ npm test
 ## Create production build
 ``` bash
 # Build for production with minification to
-# Out put dir: hahashop/dist
+# Out put dir: dist/
 npm run build
 ```
 See Vue.js official deployment [guidelines](https://cli.vuejs.org/guide/deployment.html) for more information.
