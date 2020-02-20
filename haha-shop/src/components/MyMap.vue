@@ -45,6 +45,9 @@
 </template>
 
 <script>
+const config = require('../../config/config.js')
+const axios = require('axios')
+
 export default {
   props: {
     mapCenterRef: {
@@ -65,6 +68,8 @@ export default {
       message: '',
       totalDistance: '',
       totalTime: '',
+      retryCounter: 0,
+      path: [],
       mapZoom: 11,
       mapCenter: this.mapCenterRef,
       mapCounter: 0,
@@ -79,9 +84,64 @@ export default {
       this.dropoffPoint = place.formatted_address
     },
     formSubmit () {
+      this.path = []
       this.totalDistance = this.totalTime = ''
       if (this.startingLocation && this.dropoffPoint) {
+        this.getToken()
       }
+    },
+    getToken () {
+      let self = this
+      self.isWarningClass = false
+      self.message = 'Querying route...'
+      const url = `${config.MOCK_API_DOMAIN}/route`
+      axios
+        .post(url, {
+          origin: self.startingLocation,
+          destination: self.dropoffPoint
+        })
+        .then(response => {
+          self.getRoute(response.data.token)
+        })
+        .catch(error => {
+          self.isWarningClass = true
+          self.message = error
+        })
+    },
+    getRoute (token) {
+      let self = this
+      if (this.retryCounter > 5) {
+        self.isWarningClass = true
+        this.message = 'Server busy, please try again later'
+        return
+      }
+      self.isWarningClass = false
+      self.message = 'Collecting route...'
+      const url = `${config.MOCK_API_DOMAIN}/route/${token}`
+      axios
+        .get(url)
+        .then(response => {
+          if (response.data.status === 'in progress') {
+            self.isWarningClass = false
+            self.message = 'Collecting route in progress...'
+            self.retryCounter++
+            self.getRoute(token)
+          } else if (response.data.status === 'failure') {
+            // error handle: Location not accessible by car
+            self.isWarningClass = true
+            self.message = response.data.error
+          } else {
+            self.isWarningClass = false
+            self.message = ''
+            self.totalDistance = response.data.total_distance
+            self.totalTime = response.data.total_time
+            self.path = response.data.path
+          }
+        })
+        .catch(error => {
+          self.isWarningClass = true
+          self.message = error
+        })
     }
   }
 }
