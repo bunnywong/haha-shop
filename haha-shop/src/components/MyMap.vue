@@ -184,4 +184,49 @@ desktop = 768px
   width 100vw
   @media (min-width desktop)
     width 100%
+.mymap
+  text-align left
+  &__form
+    padding 10px
+    &-wrapper
+      float left
+      width 100%
+      @media (min-width desktop)
+        padding 20px
+        width 300px
+    &-text-input
+      width calc(100% - 30px)
+      margin-top 10px
+      margin-bottom 20px
+      height 30px
+      text-indent 5px
+      font-size 16px
+      border 1px solid lightgray
+    &-cleaner-cross
+      cursor pointer
+      font-size 30px
+      margin-left 5px
+    &-message
+      color green
+    &-message.red
+      color #f16722
+    &-bottom-wrapper
+      margin-top 20px
+      @media (min-width desktop)
+        margin-top 100px
+    &-button
+      padding 10px
+      min-width 100px
+      border-radius 2px
+      border 1px solid lightgray
+      background-color transparent
+      box-shadow 1px 1px lightgray
+      &[type=submit]
+        margin-left 20px
+      &-wrapper
+        margin-top 20px
+  &__map-wrapper
+    float left
+    @media (min-width desktop)
+      width calc(100% - 460px)
 </style>
