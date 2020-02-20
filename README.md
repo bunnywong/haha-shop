@@ -1,77 +1,68 @@
-# vue-webpack-boilerplate
-
-> A full-featured Webpack setup with hot-reload, lint-on-save, unit testing & css extraction.
-
-> This template is Vue 2.0 compatible. For Vue 1.x use this command: `vue init webpack#1.0 my-project`
 
 
-# Vue-cli 3 is here, so this template is now considered deprecated.
+# Introduction
 
-This template was the main template for vue-cli verison 2.*.
+This Vue.js web application allows user to submit one pickup and drop-off point. It display the waypoints returned from the backend(API call).​
 
-Now that we have released a [stable version of vue-cli 3](https://cli.vuejs.org), which incorporates all features that this template offers (and much more), we think that this template doesn't have any significant use for the future, so we won't put much resource in developing it further.
+The App is live [here](http://haha-shop.s3-website.us-east-2.amazonaws.com)
 
-We will try and fix major issues should they arise, but not much more.
+![enter image description here](src/assets/screen-capture.png)
 
-Feel free to fork this template if you want to keep it alive.
+## App progress
+1.  User submit one pickup and drop-off point. Address fields are come with autocomplete options.
+2. `POST` method with address content to the Mock API by `axios`. It purposed to collect `token`.
+3. Make API call by`GET` method with `token` from last step. Various status response as below:
+  - `in progress`: It represent server side still in progress. Then it process retry instantly max to 5 times. Variable `retryCounter` are editable in `MyMap.vue`. `Collecting route in progress...` message will inform user by green text.
+  - `failure`: Print `Location not accessible by car` message to user by red text.
+  - `success`: Print `total distance` and `total distance` to screen. Also render marker and route in map.
 
-## Documentation
-
-- [For this template](http://vuejs-templates.github.io/webpack): common questions specific to this template are answered and each part is described in greater detail
-- [For Vue 2.0](http://vuejs.org/guide/): general information about how to work with Vue, not specific to this template
-
-## Usage
-
-This is a project template for [vue-cli](https://github.com/vuejs/vue-cli). **It is recommended to use npm 3+ for a more efficient dependency tree.**
-
+## Prequisite
+- Install [nodeJS]([https://nodejs.org/en/download/](https://nodejs.org/en/download/))
+## Installation
 ``` bash
-$ npm install -g vue-cli
-$ vue init webpack my-project
-$ cd my-project
-$ npm install
-$ npm run dev
+# install dependencies
+npm install
 ```
+## App configuration
+### Get Google Maps API KEY
+1. [Generating an Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+2. Enable `Maps JavaScript API`
+3. Enable `Places API` (for autocomplete feature)
 
-This will scaffold the project using the `master` branch. If you wish to use the latest version of the webpack template, do the following instead:
-
+### Update config.js
+In [config.js](config/config.js). Replace (`YOUR-GOOGLE-API-KEY` and `YOUR-MOCK-API-DOMAIN` ㊙️) with your own key
+```
+'use strict'
+export const MY_GOOGLE_API_KEY = 'YOUR-GOOGLE-API-KEY'
+export const MOCK_API_DOMAIN = 'YOUR-MOCK-API-DOMAIN'
+```
+㊙️ Hints: `https://mock-api.dev.XXX.com`
+## App in development mode
 ``` bash
-$ vue init webpack#develop my-project
+# serve with hot reload at localhost:8080 with ESLint errors and warnings
+npm run dev
 ```
-
-:warning: **The develop branch is not considered stable and can contain bugs or not build at all, so use at your own risk.**
-
-The development server will run on port 8080 by default. If that port is already in use on your machine, the next free port will be used.
-
-## What's Included
-
-- `npm run dev`: first-in-class development experience.
-  - Webpack + `vue-loader` for single file Vue components.
-  - State preserving hot-reload
-  - State preserving compilation error overlay
-  - Lint-on-save with ESLint
-  - Source maps
-
-- `npm run build`: Production ready build.
-  - JavaScript minified with [UglifyJS v3](https://github.com/mishoo/UglifyJS2/tree/harmony).
-  - HTML minified with [html-minifier](https://github.com/kangax/html-minifier).
-  - CSS across all components extracted into a single file and minified with [cssnano](https://github.com/ben-eb/cssnano).
-  - Static assets compiled with version hashes for efficient long-term caching, and an auto-generated production `index.html` with proper URLs to these generated assets.
-  - Use `npm run build --report`to build with bundle size analytics.
-
-- `npm run unit`: Unit tests run in [JSDOM](https://github.com/tmpvar/jsdom) with [Jest](https://facebook.github.io/jest/), or in PhantomJS with Karma + Mocha + karma-webpack.
-  - Supports ES2015+ in test files.
-  - Easy mocking.
-
-- `npm run e2e`: End-to-end tests with [Nightwatch](http://nightwatchjs.org/).
-  - Run tests in multiple browsers in parallel.
-  - Works with one command out of the box:
-    - Selenium and chromedriver dependencies automatically handled.
-    - Automatically spawns the Selenium server.
-
-### Fork It And Make Your Own
-
-You can fork this repo to create your own boilerplate, and use it with `vue-cli`:
-
+## Run Tests
+Unit test files [path](test/unit/specs/)
 ``` bash
-vue init username/repo my-project
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
 ```
+## Create production build
+``` bash
+# Build for production with minification to
+# Out put dir: dist/
+npm run build
+```
+See Vue.js official deployment [guidelines](https://cli.vuejs.org/guide/deployment.html) for more information.
+
+
+## TODO
+### Validator for empty address
+For now it conflits with autocomplete feature. For example when the value is out of autocomplete options list(e.g. `abc888`). Then input value keep as empty(not `abc888`). Which do not consistant with front-end value(`abc888`).
