@@ -29,7 +29,7 @@ npm install
 2. Enable `Maps JavaScript API`
 3. Enable `Places API` (for autocomplete feature)
 
-### Update `config/{dev/prod/test}.env.js`
+### Update `config/prod.env.js`
 Replace `YOUR-GOOGLE-API-KEY` and `YOUR-MOCK-API-DOMAIN` ㊙️ with your own key
 
 ㊙️ Hints: `https://mock-api.dev.XXX.com`
