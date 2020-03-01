@@ -4,7 +4,7 @@
 
 This Vue.js web application allows user to submit one pickup and drop-off point. It display the waypoints returned from the backend(API call).​
 
-The App is live [here](http://haha-shop.s3-website.us-east-2.amazonaws.com)
+The App is live [here](https://haha-shop.netlify.com)
 
 ![enter image description here](src/assets/screen-capture.png)
 
@@ -29,13 +29,9 @@ npm install
 2. Enable `Maps JavaScript API`
 3. Enable `Places API` (for autocomplete feature)
 
-### Update config.js
-In [config.js](config/config.js). Replace (`YOUR-GOOGLE-API-KEY` and `YOUR-MOCK-API-DOMAIN` ㊙️) with your own key
-```
-'use strict'
-export const MY_GOOGLE_API_KEY = 'YOUR-GOOGLE-API-KEY'
-export const MOCK_API_DOMAIN = 'YOUR-MOCK-API-DOMAIN'
-```
+### Update `config/{dev/prod/test}.env.js`
+Replace `YOUR-GOOGLE-API-KEY` and `YOUR-MOCK-API-DOMAIN` ㊙️ with your own key
+
 ㊙️ Hints: `https://mock-api.dev.XXX.com`
 ## App in development mode
 ``` bash

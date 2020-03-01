@@ -45,7 +45,7 @@
 </template>
 
 <script>
-const config = require('../../config/config.js')
+import * as _ from 'lodash'
 const axios = require('axios')
 
 export default {
@@ -76,6 +76,12 @@ export default {
       isWarningClass: false
     }
   },
+  computed: {
+    mockApiDomain () {
+      return _.get(process.env, 'MOCK_API_DOMAIN')
+    }
+  },
+
   methods: {
     wayPoints (path) {
       return path.map(function (item) {
@@ -104,7 +110,7 @@ export default {
       let self = this
       self.isWarningClass = false
       self.message = 'Querying route...'
-      const url = `${config.MOCK_API_DOMAIN}/route`
+      const url = `${self.mockApiDomain}/route`
       axios
         .post(url, {
           origin: self.startingLocation,
@@ -127,7 +133,7 @@ export default {
       }
       self.isWarningClass = false
       self.message = 'Collecting route...'
-      const url = `${config.MOCK_API_DOMAIN}/route/${token}`
+      const url = `${self.mockApiDomain}/route/${token}`
       axios
         .get(url)
         .then(response => {
