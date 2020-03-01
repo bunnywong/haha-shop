@@ -1,10 +1,10 @@
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a05960a9-28b4-44f4-8b3e-47d8a4e972dd/deploy-status)](https://app.netlify.com/sites/haha-shop/deploys)
 
 # Introduction
 
 This Vue.js web application allows user to submit one pickup and drop-off point. It display the waypoints returned from the backend(API call).​
 
-The App is live [here](https://haha-shop.netlify.com)
+The App is live [here](http://haha-shop.s3-website.us-east-2.amazonaws.com/)
 
 ![enter image description here](src/assets/screen-capture.png)
 
